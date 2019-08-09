@@ -39,3 +39,4 @@ I plan on adding these features soon:
 * Directed acylclic graph representation of the collection, instead of a naive list
 * More and less greedy patching options, as well as more specific patching options
 * Polymorphic calling, allowing a container to shapeshift a method into a different signature
+* Ambiguity and recursion checking, for when there is more than 1 way to skin a cat
