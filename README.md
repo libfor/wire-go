@@ -26,7 +26,7 @@ Just like that, we've turned the GetTodos function into a normal http handler, r
 # How does it work?
 Wire Containers are a collection of structs, interfaces and functions. When you ask it to "Patch" your function, it will go through it's collection and try to pre-populate each of your arguments. Any that it can't pre-populate, it leaves alone.
 
-In our GetTodos example, we create a wire container holding a function NewTodoStore and a function NewLogger. The container was able t execute NewLogger to get a Logger, which it used to satisfy the Logger argument in GetTodos. 
+In our GetTodos example, we create a wire container holding a function NewTodoStore and a function NewLogger. The container was able to execute NewLogger to get a Logger, which it used to satisfy the Logger argument in GetTodos. 
 
 The same goes for satisfying the TodoStore argument, with one exception - NewTodoStore actually looks like this: `func NewTodoStore(l Logger) TodoStore`, so the container used the same Logger it had previously acquired.
 
