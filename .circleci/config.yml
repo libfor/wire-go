@@ -17,10 +17,15 @@ jobs:
     #### expecting it in the form of
     ####   /go/src/github.com/circleci/go-tool
     ####   /go/src/bitbucket.org/circleci/go-tool
-    working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
+    working_directory: /go/src/github.com/libfor/wire-go
     steps:
       - checkout
 
       # specify any bash command here prefixed with `run: `
+      - run:
+        curl -L -s https://github.com/golang/dep/releases/download/v${DEP_VERSION}/dep-linux-amd64 -o /go/bin/dep
+        chmod +x /go/bin/dep
+        /go/bin/dep ensure
+
       - run: go get -v -t -d ./...
       - run: go test -v ./...
