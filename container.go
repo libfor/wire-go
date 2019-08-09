@@ -6,16 +6,27 @@ import (
 )
 
 type Container struct {
-	ctors      *[]interface{}
-	satisfiers map[reflect.Type]*reflect.Value
-	prefix     string
+	ctors     *[]interface{}
+	prefix    string
+	recursion int
 }
 
 func New(ctors ...interface{}) Container {
-	return Container{
-		ctors:      &[]interface{}{},
-		satisfiers: make(map[reflect.Type]*reflect.Value),
-	}.Acquire(ctors...)
+	c := Container{
+		ctors: &ctors,
+	}
+	c.Acquire(c)
+	return c
+}
+
+func (c Container) MustInitialize(partial interface{}) {
+	out := c.GreedyPatch(partial)
+	if callable, ok := out.(func()); ok {
+		callable()
+	}
+	if err, ok := out.(error); ok {
+		panic(err.Error())
+	}
 }
 
 func (c Container) Acquire(ctors ...interface{}) Container {
@@ -63,20 +74,16 @@ func (c Container) GreedyPatch(partial interface{}) interface{} {
 }
 
 func (c Container) indent() Container {
+	c.recursion += 1
+	if c.recursion > 20 {
+		panic("maximum recursion hit")
+	}
 	c.prefix += " -"
 	return c
 }
 
 func (c Container) satisfy(requirement reflect.Type) (out *reflect.Value, err error) {
 	log.Println(c.prefix, "satisfying", requirement)
-	if v, found := c.satisfiers[requirement]; found {
-		return v, nil
-	}
-	defer func() {
-		if err != nil {
-			c.satisfiers[requirement] = out
-		}
-	}()
 
 	c.prefix += " -"
 	for _, ctor := range *c.ctors {
@@ -88,10 +95,10 @@ func (c Container) satisfy(requirement reflect.Type) (out *reflect.Value, err er
 			return &v, nil
 		}
 		if thisType.Kind() == reflect.Func {
-			fin := c.indent().GreedyPatch(ctor)
-			depType := reflect.TypeOf(fin)
+			depType := reflect.TypeOf(ctor)
 			if depType.NumOut() > 0 && depType.Out(0) == requirement {
-				log.Println(c.prefix, "satisfied with", depType)
+				fin := c.indent().GreedyPatch(ctor)
+				log.Println(c.prefix, "executing", depType, "for its dependencies")
 				res := reflect.ValueOf(fin).Call(nil)
 				if len(res) == 2 {
 					log.Println(c.prefix, "checking", res[1], "for", errType)
@@ -101,6 +108,7 @@ func (c Container) satisfy(requirement reflect.Type) (out *reflect.Value, err er
 						}
 					}
 				}
+				*c.ctors = append([]interface{}{res[0].Interface()}, *c.ctors...)
 				return &res[0], nil
 			}
 		}
