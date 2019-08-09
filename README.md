@@ -31,3 +31,10 @@ In our GetTodos example, we create a wire container holding a function NewTodoSt
 The same goes for satisfying the TodoStore argument, with one exception - NewTodoStore actually looks like this: `func NewTodoStore(l Logger) TodoStore`, so the container used the same Logger it had previously acquired.
 
 The goal is to resolve the bulk of the "orchestration" that has to be done to make your smaller components aware of each other. This resolution happens when you first try to patch a function, which will almost always be in "main". What if it fails? You can assert the function signature that you get back, which will panic, or safely assert it as an error to see if wire returned an error.
+
+# Project plan
+I plan on adding these features soon:
+* Interface assertion, to see if anything in the collection implements any interface arguments
+* Composite assertion, to see if a combination of items in the collection can satisfy an argument
+* Directed acylclic graph representation of the collection, instead of a naive list
+* More and less greedy patching options, as well as more specific patching options
