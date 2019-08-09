@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/libfor/wire-go.svg?style=svg)](https://circleci.com/gh/libfor/wire-go)
+
 # wire-go
 Wire is the ultimate sidekick for big projects made of small components.
 
