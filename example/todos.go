@@ -7,6 +7,30 @@ import (
 	wire "github.com/libfor/wire-go"
 )
 
+type Todo struct {
+	ID          string
+	Description string
+}
+
+type TodoStore struct {
+	Metrics
+}
+
+func (ts TodoStore) List() ([]Todo, error) {
+	ts.Count("todo.list")
+	return []Todo{}, nil
+}
+
+func (ts TodoStore) Create(todo *Todo) error {
+	ts.Count("todo.create")
+	todo.ID = "generated_todo_id"
+	return nil
+}
+
+func NewTodoStore(mex Metrics) TodoStore {
+	return TodoStore{Metrics: mex}
+}
+
 func RegisterTodos(server Server, deps wire.Container, log Logger) {
 	log.Println("attaching todo HTTP handlers to", server)
 	server.HandleFunc("/todos", deps.GreedyPatch(GetTodos).(func(http.ResponseWriter, *http.Request)))
@@ -39,28 +63,4 @@ func PostTodo(w http.ResponseWriter, r *http.Request, ts TodoStore, log Logger) 
 	}
 	w.WriteHeader(200)
 	json.NewEncoder(w).Encode(todo)
-}
-
-type Todo struct {
-	ID          string
-	Description string
-}
-
-type TodoStore struct {
-	Metrics
-}
-
-func (ts TodoStore) List() ([]Todo, error) {
-	ts.Count("todo.list")
-	return []Todo{}, nil
-}
-
-func (ts TodoStore) Create(todo *Todo) error {
-	ts.Count("todo.create")
-	todo.ID = "generated_todo_id"
-	return nil
-}
-
-func NewTodoStore(mex Metrics) TodoStore {
-	return TodoStore{Metrics: mex}
 }
