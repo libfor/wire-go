@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/libfor/wire-go.svg?style=svg)](https://circleci.com/gh/libfor/wire-go)
+[![CircleCI](https://circleci.com/gh/libfor/wire-go.svg?style=svg)](https://circleci.com/gh/libfor/wire-go) [![Go Report Card](https://goreportcard.com/badge/github.com/libfor/wire-go)](https://goreportcard.com/report/github.com/libfor/wire-go) 
 # Wire-Go
 Wire is the ultimate sidekick for big projects made of small components.
 
