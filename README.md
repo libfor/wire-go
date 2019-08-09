@@ -38,3 +38,4 @@ I plan on adding these features soon:
 * Composite assertion, to see if a combination of items in the collection can satisfy an argument
 * Directed acylclic graph representation of the collection, instead of a naive list
 * More and less greedy patching options, as well as more specific patching options
+* Polymorphic calling, allowing a container to shapeshift a method into a different signature
