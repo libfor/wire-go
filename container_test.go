@@ -49,16 +49,16 @@ func TestLambdaSyntax(t *testing.T) {
 	t.Log("err", err)
 }
 
-type hasHi struct{}
+// type hasHi struct{}
 
-func (hasHi) Hi() {}
+// func (hasHi) Hi() {}
 
-func newHi() hasHi {
-	return hasHi{}
-}
+// func newHi() hasHi {
+// 	return hasHi{}
+// }
 
-type hi interface{ Hi() }
+// type hi interface{ Hi() }
 
-func TestInterface(t *testing.T) {
-	New(newHi).GreedyPatch(func(hi) {}).(func())()
-}
+// func TestInterface(t *testing.T) {
+// 	New(newHi).GreedyPatch(func(hi) {}).(func())()
+// }
