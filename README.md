@@ -1,5 +1,5 @@
 # Wire-Go
-[![codecov](https://codecov.io/gh/libfor/json-go/branch/master/graph/badge.svg)](https://codecov.io/gh/libfor/json-go) [![Go Report Card](https://goreportcard.com/badge/github.com/libfor/wire-go)](https://goreportcard.com/report/github.com/libfor/wire-go) [![GoDoc](https://godoc.org/github.com/libfor/wire-go?status.svg)](https://godoc.org/github.com/libfor/wire-go)
+[![codecov](https://codecov.io/gh/libfor/wire-go/branch/master/graph/badge.svg)](https://codecov.io/gh/libfor/wire-go) [![Go Report Card](https://goreportcard.com/badge/github.com/libfor/wire-go)](https://goreportcard.com/report/github.com/libfor/wire-go) [![GoDoc](https://godoc.org/github.com/libfor/wire-go?status.svg)](https://godoc.org/github.com/libfor/wire-go)
 
 Wire is the ultimate sidekick for big projects made of small components.
 
